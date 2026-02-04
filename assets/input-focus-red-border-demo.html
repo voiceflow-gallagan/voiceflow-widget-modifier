@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Focus Border Demo</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 40px;
+      background: #f5f5f5;
+    }
+    h1 { color: #333; }
+    .demo-container {
+      display: flex;
+      gap: 40px;
+      margin-top: 20px;
+    }
+    .demo-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .demo-box h3 {
+      margin-top: 0;
+      color: #666;
+    }
+
+    /* Simulated input container */
+    .input-container {
+      position: relative;
+      width: 300px;
+      height: 48px;
+      border-radius: 24px;
+      border: 1px solid #e2e4e5;
+      background: white;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+    }
+
+    .input-container input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 14px;
+    }
+
+    /* Focus ring overlay - simulates .vfrc-chat-focus-ring */
+    .focus-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      pointer-events: none;
+    }
+
+    /* Default blue focus */
+    .blue-focus .focus-ring {
+      box-shadow: rgb(57, 125, 255) 0px 0px 0px 2px inset;
+    }
+
+    /* Red focus override */
+    .red-focus .focus-ring {
+      box-shadow: #e53935 0px 0px 0px 2px inset;
+    }
+
+    .css-code {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      margin-top: 16px;
+      white-space: pre;
+    }
+    .css-selector { color: #9cdcfe; }
+    .css-property { color: #9cdcfe; }
+    .css-value { color: #ce9178; }
+    .css-important { color: #569cd6; }
+  </style>
+</head>
+<body>
+  <h1>Voiceflow Widget: Input Focus Ring Color</h1>
+  <p>The focus ring is created by <code>.vfrc-chat-focus-ring</code> using an inset box-shadow.</p>
+
+  <div class="demo-container">
+    <div class="demo-box">
+      <h3>Default (Blue)</h3>
+      <div class="input-container blue-focus">
+        <div class="focus-ring"></div>
+        <input type="text" placeholder="Message..." readonly>
+      </div>
+      <div class="css-code"><span class="css-selector">.vfrc-chat-focus-ring</span> {
+  <span class="css-property">box-shadow</span>: <span class="css-value">rgb(57, 125, 255) 0px 0px 0px 2px inset</span>;
+}</div>
+    </div>
+
+    <div class="demo-box">
+      <h3>Custom (Red)</h3>
+      <div class="input-container red-focus">
+        <div class="focus-ring"></div>
+        <input type="text" placeholder="Message..." readonly>
+      </div>
+      <div class="css-code"><span class="css-selector">.vfrc-chat-focus-ring</span> {
+  <span class="css-property">box-shadow</span>: <span class="css-value">#e53935 0px 0px 0px 2px inset</span> <span class="css-important">!important</span>;
+}</div>
+    </div>
+  </div>
+
+  <h2 style="margin-top: 40px;">Key Finding</h2>
+  <p>The focus ring is <strong>NOT</strong> on <code>.vfrc-input-container</code> itself. It's a separate absolutely-positioned overlay element called <code>.vfrc-chat-focus-ring</code>.</p>
+</body>
+</html>
