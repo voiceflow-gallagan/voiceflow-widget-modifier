@@ -100,6 +100,7 @@ shadowRoot.appendChild(style);
 | Hide close button | `examples/hide-close-button` | `.vfrc-header--actions .vfrc-header--button:nth-child(3)` |
 | Hide refresh button | *use template* | `.vfrc-header--actions .vfrc-header--button:nth-child(2)` |
 | Hide mute button | *use template* | `.vfrc-header--actions .vfrc-header--button:nth-child(1)` |
+| Square corners | `examples/square-corners` | `.vfrc-chat` |
 | Custom colors/fonts | `scripts/inject-styles.js` | *customize as needed* |
 
 Each example includes:
