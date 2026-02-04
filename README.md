@@ -6,7 +6,7 @@ A Claude Code skill for customizing the Voiceflow chat widget CSS and behavior.
 
 - **Shadow DOM aware**: Properly injects styles into the widget's shadow root
 - **Stable selectors**: Uses `vfrc-*` class names that persist across widget updates
-- **Ready-to-use examples**: Force scrollbar, hide buttons, and more
+- **Ready-to-use examples**: Force scrollbar, hide buttons, square corners, and more
 - **Production-ready**: Includes BASE64 and external CSS integration examples
 
 ## Requirements
@@ -38,6 +38,7 @@ Once installed, Claude will automatically use this skill when you ask to modify 
 **Example prompts:**
 - "Hide the close button on the Voiceflow widget"
 - "Force the scrollbar to always show in the chat"
+- "Make the widget corners square"
 - "Change the header color of the widget"
 
 ## Structure
@@ -47,7 +48,8 @@ voiceflow-widget-modifier/
 ├── SKILL.md              # Main skill documentation
 ├── examples/             # Validated modifications
 │   ├── force-scrollbar.js/.md
-│   └── hide-close-button.js/.md
+│   ├── hide-close-button.js/.md
+│   └── square-corners.js/.md
 └── scripts/              # Tools & templates
     ├── _TEMPLATE.md
     ├── discover-selectors.js
@@ -70,6 +72,14 @@ voiceflow-widget-modifier/
 .vfrc-chat-dialog__container {
   overflow-y: scroll !important;
   scrollbar-width: auto !important;
+}
+```
+
+### Square Corners
+
+```css
+.vfrc-chat {
+  border-radius: 0 !important;
 }
 ```
 
