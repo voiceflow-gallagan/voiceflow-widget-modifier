@@ -9,6 +9,11 @@ A Claude Code skill for customizing the Voiceflow chat widget CSS and behavior.
 - **Ready-to-use examples**: Force scrollbar, hide buttons, and more
 - **Production-ready**: Includes BASE64 and external CSS integration examples
 
+## Requirements
+
+- **Claude browser extension**: Must be installed in Chrome for this skill to work. The extension allows Claude to interact with web pages, inspect elements, and test CSS modifications in real-time.
+  - [Install Claude browser extension](https://chromewebstore.google.com/detail/claude/kmfnobbpjnpmfmfbmbagijcpkmfgjjmk)
+
 ## Installation
 
 ### Claude Code CLI
