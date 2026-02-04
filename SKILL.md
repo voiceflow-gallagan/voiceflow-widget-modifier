@@ -5,6 +5,16 @@ description: "Modify and customize the Voiceflow chat widget CSS and behavior. U
 
 # Voiceflow Chat Widget Modifier
 
+## Requirements
+
+**Claude Browser Extension Required**: This skill requires the Claude Browser extension (Claude in Chrome) to:
+- Load the test URL and interact with the widget
+- Execute JavaScript to discover selectors and inject CSS
+- Take screenshots to verify modifications
+- Test changes in real-time before updating skill files
+
+Without the browser extension, you cannot properly test or develop widget modifications.
+
 ## Critical Architecture Knowledge
 
 ### Shadow DOM Structure
@@ -42,6 +52,8 @@ document
 .vfrc-message--user             /* User messages */
 .vfrc-message--assistant        /* Bot messages */
 .vfrc-input                     /* Input field area */
+.vfrc-input-container           /* Input container wrapper */
+.vfrc-chat-focus-ring           /* Focus ring overlay (for input focus styling) */
 .vfrc-button                    /* Buttons */
 .vfrc-header                    /* Widget header */
 .vfrc-header--actions           /* Header action buttons container */
@@ -64,7 +76,6 @@ The header contains 3 action buttons in `.vfrc-header--actions`:
 ### Rendering Context
 
 - **Standard embedding**: Widget uses Shadow DOM at `#voiceflow-chat`
-- **Voiceflow /share/ pages**: Widget may render directly in main DOM (no Shadow DOM)
 
 Scripts should check for both contexts:
 
@@ -100,7 +111,7 @@ shadowRoot.appendChild(style);
 | Hide close button | `examples/hide-close-button` | `.vfrc-header--actions .vfrc-header--button:nth-child(3)` |
 | Hide refresh button | *use template* | `.vfrc-header--actions .vfrc-header--button:nth-child(2)` |
 | Hide mute button | *use template* | `.vfrc-header--actions .vfrc-header--button:nth-child(1)` |
-| Square corners | `examples/square-corners` | `.vfrc-chat` |
+| Red focus border | `examples/input-focus-red-border` | `.vfrc-chat-focus-ring` |
 | Custom colors/fonts | `scripts/inject-styles.js` | *customize as needed* |
 
 Each example includes:
@@ -120,16 +131,61 @@ console.log({
 });
 ```
 
+## Key Architecture Findings
+
+### Input Focus Ring
+
+The input focus ring is **NOT** on `.vfrc-input-container` itself. It's rendered by a separate absolutely-positioned overlay element:
+
+```
+.vfrc-input-container
+├── .vfrc-chat-focus-ring  ← Creates the focus ring via inset box-shadow
+├── .vfrc-chat-input__container-inner
+│   └── textarea.vfrc-chat-input
+└── (buttons: mic, send)
+```
+
+The default blue focus ring (`rgb(57, 125, 255)`) is applied via:
+```css
+.vfrc-chat-focus-ring {
+  box-shadow: rgb(57, 125, 255) 0px 0px 0px 2px inset;
+}
+```
+
+To change the focus color, target `.vfrc-chat-focus-ring` with an inset box-shadow override.
+
+### Test URL
+
+Always use this URL for testing widget modifications:
+```
+https://creator.voiceflow.com/share/696e5862c51f60cfb9cdafca/development
+```
+
 ## Workflow
 
-**Before each new modification search:**
+**Use Claude Browser extension for all steps:**
 
-1. **Refresh the page** (fresh start - clears any previous injected styles)
-2. Wait for chat widget to open (usually opens automatically on /share/ pages)
-   - **Fallback:** If widget doesn't open, click "Test your agent" button
-3. Access Shadow DOM: `document.getElementById('voiceflow-chat').shadowRoot`
-4. Find target element using DevTools (Elements > #voiceflow-chat > #shadow-root)
-5. Use only `vfrc-*` stable selectors
-6. Test CSS injection in browser console
-7. Take screenshot to verify the modification works
-8. Add validated code to the skill scripts
+1. **Navigate to test URL** using `mcp__Claude_in_Chrome__navigate`
+   ```
+   https://creator.voiceflow.com/share/696e5862c51f60cfb9cdafca/development
+   ```
+2. **Wait for widget to load** (2-3 seconds), take initial screenshot
+3. **Discover selectors** using `mcp__Claude_in_Chrome__javascript_tool` to explore the DOM
+4. **Inject test CSS** via JavaScript and verify with screenshot
+5. **Iterate** until the modification works correctly
+6. **Get user approval** by sharing the screenshot
+7. **Update skill files** only after validation:
+   - Add `.js` and `.md` files to `examples/`
+   - Add HTML demo file to `assets/` (screenshots can't be saved directly from browser)
+   - Update `SKILL.md` with key findings
+   - Update `README.md` with new example
+
+## Assets & Screenshots
+
+The Claude Browser extension can capture screenshots for verification but **cannot save them directly to local files**. Instead:
+
+1. **Create HTML demo files** in `assets/` that visually demonstrate the before/after effect
+2. Use simple CSS to simulate the widget appearance
+3. Name files descriptively: `{modification-name}-demo.html`
+
+See `assets/input-focus-red-border-demo.html` for an example.
