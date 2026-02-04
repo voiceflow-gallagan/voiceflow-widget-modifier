@@ -12,7 +12,8 @@ A Claude Code skill for customizing the Voiceflow chat widget CSS and behavior.
 ## Requirements
 
 - **Claude browser extension**: Must be installed in Chrome for this skill to work. The extension allows Claude to interact with web pages, inspect elements, and test CSS modifications in real-time.
-  - [Install Claude browser extension](https://chromewebstore.google.com/detail/claude/kmfnobbpjnpmfmfbmbagijcpkmfgjjmk)
+  - [More info](https://claude.com/chrome)
+  - [Install Claude browser extension](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn)
 
 ## Installation
 
